@@ -86,9 +86,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="DataAccess\OrderDB.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Order.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -103,7 +105,12 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\URISUtil\URISUtil\URISUtil\URISUtil.csproj">
+      <Project>{3dc6a668-783b-4d14-a8b8-2fb1c718f78d}</Project>
+      <Name>URISUtil</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
