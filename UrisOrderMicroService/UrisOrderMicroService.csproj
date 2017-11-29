@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="DataAccess\OrderDB.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -104,10 +105,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\URISUtil\URISUtil\URISUtil\URISUtil.csproj">
+    <ProjectReference Include="..\..\..\URISUtil\URISUtil\URISUtil\URISUtil.csproj">
       <Project>{3dc6a668-783b-4d14-a8b8-2fb1c718f78d}</Project>
       <Name>URISUtil</Name>
     </ProjectReference>

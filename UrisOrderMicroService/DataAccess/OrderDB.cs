@@ -71,6 +71,30 @@ namespace UrisOrderMicroService.DataAccess
 
         }
 
+        private static object CreateLikeQueryString(string str)
+        {
+            return str == null ? (object)DBNull.Value : "%" + str + "%";
+        }
+        /*
+        public static List<Order> GetOrder(DateTime Date, string DeliveryAddress, string DeliveryZipCode,ActiveStatusEnum active,OrderEnum orderDirection)
+        {
+            try {
+
+                List<Order> retVal = new List<Order>();
+
+                using (SqlConnection connection = new SqlConnection(DBFunctions.ConnectionString))
+                {
+                    
+                                           
+
+
+                }
+                
+            }
+        
+        }
+
+    */
         public static Order GetOrder(int orderId)
         {
             try
