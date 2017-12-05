@@ -107,7 +107,7 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\URISUtil\URISUtil\URISUtil\URISUtil.csproj">
+    <ProjectReference Include="..\..\..\UrisUtil2\URISUtil\URISUtil\URISUtil.csproj">
       <Project>{3dc6a668-783b-4d14-a8b8-2fb1c718f78d}</Project>
       <Name>URISUtil</Name>
     </ProjectReference>

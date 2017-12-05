@@ -14,6 +14,9 @@ namespace UrisOrderMicroService.DataAccess
 {
     public class OrderDB
     {
+        private static string orderType;
+        private static string orderDeliveryAddress;
+
         private static Order ReadRow(SqlDataReader reader)
         {
             Order retVal = new Order();
@@ -75,8 +78,8 @@ namespace UrisOrderMicroService.DataAccess
         {
             return str == null ? (object)DBNull.Value : "%" + str + "%";
         }
-        /*
-        public static List<Order> GetOrder(DateTime Date, string DeliveryAddress, string DeliveryZipCode,ActiveStatusEnum active,OrderEnum orderDirection)
+        
+        public static List<Order> GetOrder(string OrderType, string OrderDeliveryAddress, string OrderDeliveryZipCode,ActiveStatusEnum active,OrderEnum orderDirection)
         {
             try {
 
@@ -84,17 +87,61 @@ namespace UrisOrderMicroService.DataAccess
 
                 using (SqlConnection connection = new SqlConnection(DBFunctions.ConnectionString))
                 {
-                    
-                                           
+                    SqlCommand command = connection.CreateCommand();
+                    command.CommandText = String.Format(@"
+                        SELECT
+                        {0}
+                        FROM
+                        [order].[Order]
+                        JOIN [order].[OrderType] ON [Order].[OrderTypeDate] = [OrderType].[Date]
+                        WHERE
+                          (@OrderType IS NULL OR [order].[OrderType].DeliveryAddress LIKE @OrderType) AND
+                            (@OrderDeliveryAddress IS NULL OR [order].[Order].DeliveryAddress LIKE @OrderDeliveryAddress) AND
+                            (@Active IS NULL OR [order].[Order].Active = @Active)
+                    ", AllColumnSelect);
+
+                    command.Parameters.Add("@OrderType", SqlDbType.NVarChar);
+                    command.Parameters.Add("@OrderDeliveryAddress", SqlDbType.NVarChar);
+                    command.Parameters.Add("@Active", SqlDbType.Bit);
+
+                    command.Parameters["@OrderType"].Value = CreateLikeQueryString(orderType);
+                    command.Parameters["@OrderDeliveryAddress"].Value = CreateLikeQueryString(orderDeliveryAddress);
+
+                switch (active)
+                    {
+                        case ActiveStatusEnum.Active:
+                            command.Parameters["@Active"].Value = true;
+                            break;
+                        case ActiveStatusEnum.Inactive:
+                            command.Parameters["@Active"].Value = false;
+                            break;
+                        case ActiveStatusEnum.All:
+                            command.Parameters["@Active"].Value = DBNull.Value;
+                            break;
+                    }                    
+
+             System.Diagnostics.Debug.WriteLine(command.CommandText);
+                    connection.Open();
 
 
+             using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            retVal.Add(ReadRow(reader));
+                        }
+                    }
                 }
-                
+                return retVal;
+                                         
+                }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                throw ErrorResponse.ErrorMessage(HttpStatusCode.BadRequest, ex);
             }
-        
         }
 
-    */
         public static Order GetOrder(int orderId)
         {
             try
